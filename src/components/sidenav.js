@@ -1,13 +1,15 @@
 import React from "react"
-import { Link } from "gatsby"
+import { Link, Image } from "gatsby"
 
 export default function Sidenav() {
 	return (
-		<nav>
-			<Element name="label-explorer" />
-			<Element name="wbar" />
-			<Element name="newtab" />
-		</nav>
+		<div className="sidebar">
+			<nav>
+				<Element name="label-explorer" />
+				<Element name="wbar" />
+				<Element name="newtab" />
+			</nav>
+		</div>
 		)
 }
 

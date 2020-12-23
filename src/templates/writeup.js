@@ -6,12 +6,12 @@ export default function Template({ data }) {
 	const { markdownRemark } = data //our post data
 	const { frontmatter, html } = markdownRemark
 	return (
-		<div>
-		<Sidenav />
-		<div className="writeup-container">
-			<h1>{frontmatter.title}</h1>
-			<div dangerouslySetInnerHTML={{ __html: html }} />
-		</div>
+		<div className="overall-container">
+			<Sidenav />
+			<div className="writeup">
+				<h1>{frontmatter.title}</h1>
+				<div dangerouslySetInnerHTML={{ __html: html }} />
+			</div>
 		</div>
 		)
 }

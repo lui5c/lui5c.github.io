@@ -2,25 +2,39 @@
 $dark: #424242;
 $hover: #ff7200;
 
-nav{ 
-	width: 200px;
-	display: inline-block;
-	position: relative;
+//global left/right widths
+$reader-width: 80%;
+$navbar-width: 100% - $reader-width;
+
+body{
+	font-size: 18px;
+}
+
+.sidebar {
+	margin: 0px;
+	width: $navbar-width;
+	height: 90%;
+	position: fixed;
 	left: 0px;
-	top: 0px;
+	border: 1px solid gray;
+}
+
+nav{ 
+	position: fixed;
+	margin: 0px;
+	top: 3em;
 	padding: 0px;
 	border: 1px solid gray; //for development only
 
 	a {
 		color: $dark;
 		text-decoration: none;
-		font-size: 2em;
+		font-size: 1.8em;
 		&:hover{
 			color: $hover;
 			transition-duration: 0.1s;
 		}
 	}
-
 	li {
 		list-style-type: none;
 		padding-left: 0.5em;
@@ -29,4 +43,23 @@ nav{
 			transition-duration: 0.1s;
 		}
 	}
+}
+
+.overall-container{
+	border: 1px solid gray;
+	height: auto;
+	width: 100%;
+	padding: 0px;
+}
+
+
+//variables for padding
+$padding: 2em;
+
+.writeup{
+	margin: 0px;
+	border: 1px solid gray;
+    margin-left: $navbar-width;	
+	width: calc($reader-width - $padding);
+	padding: $padding;
 }
