@@ -28,5 +28,14 @@ module.exports = {
 				path: `${__dirname}/writeups/`,
 			},
 		},
+		{
+			resolve: `gatsby-source-filesystem`,
+			options: {
+				name: `pictures`,
+				path: `${__dirname}/static/`,
+			},
+		},
+		`gatsby-transformer-sharp`,
+		`gatsby-plugin-sharp`,
 	],
 }

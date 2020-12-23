@@ -1,52 +1,84 @@
+//fonts
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600&display=swap');
+
 // colors
-$dark: #424242;
+$darker: #1c1e21;
+$dark: #303134 ;
 $hover: #ff7200;
 
 //global left/right widths
-$reader-width: 80%;
+$reader-width: 75%;
 $navbar-width: 100% - $reader-width;
 
-body{
-	font-size: 18px;
+html {
+	overflow-y: scroll;
 }
 
+body{
+	font-family: 'Montserrat';
+	font-weight: 300;
+	font-size: 18px;
+	color: $darker;
+}
+
+//debugging purposes
+div {
+	//border: 1px solid gray;
+}
+
+$sidebar-padding-left: 0.5em;
+
 .sidebar {
-	margin: 0px;
+	top: 0px;
+	padding-left: $sidebar-padding-left;
+	background-color: #F8F8F8;
+	//border-right: 5px double lightgray;
+	height: 100%;
 	width: $navbar-width;
-	height: 90%;
 	position: fixed;
 	left: 0px;
-	border: 1px solid gray;
+}
+
+//image variables
+$img_var: 160px;
+
+img.profpic {
+	border-radius: 100px;
+	position: relative;
+	height: $img_var;
+	width: $img_var;
+	left: calc(50% - #{$img_var/2} - #{$sidebar-padding-left} ); //50% minus width minus padding
+	margin-bottom: 1em;
+	margin-top: 1em;
+	opacity: 0.9;
+	&:hover{
+		opacity: 0.95;
+	}
 }
 
 nav{ 
-	position: fixed;
+	text-align: left;
+	display: block;
 	margin: 0px;
 	top: 3em;
 	padding: 0px;
-	border: 1px solid gray; //for development only
-
+	font-weight: 400;
 	a {
 		color: $dark;
 		text-decoration: none;
-		font-size: 1.8em;
+		font-size: 1.6em;
 		&:hover{
-			color: $hover;
-			transition-duration: 0.1s;
+			box-shadow: 0px -10px inset lightblue;
+			z-index: 5;
 		}
 	}
 	li {
 		list-style-type: none;
 		padding-left: 0.5em;
-		&:hover{
-			box-shadow: 3px 0px $hover inset;
-			transition-duration: 0.1s;
-		}
 	}
 }
 
 .overall-container{
-	border: 1px solid gray;
 	height: auto;
 	width: 100%;
 	padding: 0px;
@@ -54,12 +86,11 @@ nav{
 
 
 //variables for padding
-$padding: 2em;
+$padding: 4em;
 
-.writeup{
+.writeup {
 	margin: 0px;
-	border: 1px solid gray;
-    margin-left: $navbar-width;	
-	width: calc($reader-width - $padding);
+	margin-left: $navbar-width;
 	padding: $padding;
+	padding-top: $padding/4;
 }
