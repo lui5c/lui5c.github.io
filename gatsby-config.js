@@ -7,6 +7,26 @@
 module.exports = {
   /* Your site config here */
 	plugins: [
-		`gatsby-plugin-sass`
+		`gatsby-plugin-sass`,
+		{
+			//plugin for parsing markdown files
+			//gatsbyjs.com/plugins/gatsby-transformer-remark
+			resolve: `gatsby-transformer-remark`,
+			options: {
+				commonmark: true,
+				footnotes: true,
+				pedantic: true,
+				gfm: true,
+				plugins: [],
+			},
+		},
+		{
+			//plugin for reading in files
+			resolve: `gatsby-source-filesystem`,
+			options: {
+				name: `writeups`,
+				path: `${__dirname}/writeups/`,
+			},
+		},
 	],
 }
