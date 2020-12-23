@@ -14,10 +14,10 @@ export default function Sidenav() {
 			</Link>
 			<nav>
 				<Element name="home" path="/" />
-				<Element name="label-explorer/" />
-				<Element name="wbar/" />
-				<Element name="newtab/" />
-				<Element name="experiments/" />
+				<Element name="label-explorer" />
+				<Element name="wbar" />
+				<Element name="newtab" />
+				<Element name="experiments" />
 			</nav>
 		</div>
 		)
@@ -25,8 +25,8 @@ export default function Sidenav() {
 
 function Element(props) {
 	let path;
-	if (props.path) { path = "/" + props.path; }
-	else { path = "/" + props.name; }
+	if (props.path) { path = props.path; }
+	else { path = "/" + props.name + "/"; }
 	return (
 		<li><Link to={path}>{props.name}</Link></li>
 		)
