@@ -1,10 +1,11 @@
 //fonts
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open%20Sans:wght@200;300;400;500;600&display=swap');
 
 // colors
 $darker: #1c1e21;
 $dark: #303134 ;
 $hover: #ff7200;
+$offwhite: #FAFAFA;
 
 //global left/right widths
 $reader-width: 75%;
@@ -12,13 +13,26 @@ $navbar-width: 100% - $reader-width;
 
 html {
 	overflow-y: scroll;
+	--deckgo-highlight-code-background: #{$offwhite};
+	--deckgo-highlight-code-border-radius: 15px;
+	--deckgo-highlight-code-padding: 10px 15px 10px 15px;
+	--deckgo-highlight-code-token-selector: darkgreen;
+	--deckgo-highlight-code-token-operator: #c20000;
+	--deckgo-highlight-code-token-atrule: #069406;
+	--deckgo-highlight-code-token-function: #d97000;
+	--deckgo-highlight-code-white-space: pre-wrap;
 }
 
-body{
-	font-family: 'Montserrat';
-	font-weight: 300;
+:host(div.deckgo-highlight-code-container){
+	border: 10px solid green;
+}
+
+body {
+	font-family: 'Open Sans';
+	font-weight: 400;
 	font-size: 18px;
-	color: $darker;
+	color: $dark;
+	margin: 0px;
 }
 
 //debugging purposes
@@ -26,33 +40,57 @@ div {
 	//border: 1px solid gray;
 }
 
-$sidebar-padding-left: 0.5em;
+$sidebar-padding: 0.5em;
 
 .sidebar {
 	top: 0px;
-	padding-left: $sidebar-padding-left;
+	padding-left: $sidebar-padding;
+	padding-right: $sidebar-padding;
 	background-color: #F8F8F8;
-	//border-right: 5px double lightgray;
+	border-right: 1px solid orange;
 	height: 100%;
 	width: $navbar-width;
 	position: fixed;
 	left: 0px;
+	z-index: 2; //this puts the right edge *over* the writeup pane
 }
 
 //image variables
-$img_var: 160px;
+$img_var: 175px;
 
 img.profpic {
 	border-radius: 100px;
 	position: relative;
 	height: $img_var;
 	width: $img_var;
-	left: calc(50% - #{$img_var/2} - #{$sidebar-padding-left} ); //50% minus width minus padding
+	left: calc(50% - #{$img_var/2} ); //50% minus width minus padding
 	margin-bottom: 1em;
 	margin-top: 1em;
 	opacity: 0.9;
 	&:hover{
 		opacity: 0.95;
+	}
+}
+
+$logo-height: 30px;
+$logo-padding: 2em;
+
+.sidebar-socials{
+	height: auto;
+	text-align: center;
+	margin-bottom: 0.5em;
+	padding-right: $logo-padding;
+	padding-left: $logo-padding;
+	img{
+		height: $logo-height;
+		width: $logo-height;
+		margin-left: 1em;
+		margin-right: 1em;
+		margin-bottom: 0.5em;
+	}
+	hr {
+		margin-top: 1em;
+		width: 100%;
 	}
 }
 
@@ -79,9 +117,12 @@ nav{
 }
 
 .overall-container{
-	height: auto;
+	position: relative;
+	top: 0px;
+	left: 0px;
+	height: 100%;
 	width: 100%;
-	padding: 0px;
+	min-height: 100%;
 }
 
 
@@ -89,8 +130,13 @@ nav{
 $padding: 4em;
 
 .writeup {
+	position: relative;
+	//background-color: linen;
 	margin: 0px;
 	margin-left: $navbar-width;
 	padding: $padding;
 	padding-top: $padding/4;
+	height: 100%;
 }
+
+

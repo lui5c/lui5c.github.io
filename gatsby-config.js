@@ -17,7 +17,21 @@ module.exports = {
 				footnotes: true,
 				pedantic: true,
 				gfm: true,
-				plugins: [],
+				plugins: [
+					{
+						resolve: `gatsby-remark-images`,
+						options: {
+							maxWidth: 800,
+						},
+					},
+					{
+						resolve: `gatsby-remark-highlight-code`,
+						options: {
+							terminal: "none",
+							theme: "One-light",
+						},
+					},
+				],
 			},
 		},
 		{
@@ -31,11 +45,15 @@ module.exports = {
 		{
 			resolve: `gatsby-source-filesystem`,
 			options: {
-				name: `pictures`,
+				name: `static`,
 				path: `${__dirname}/static/`,
 			},
 		},
 		`gatsby-transformer-sharp`,
 		`gatsby-plugin-sharp`,
+		//`gatsby-plugin-mdx`,
+		`gatsby-image`,
+		`gatsby-remark-images`,
+		`gatsby-plugin-catch-links`,
 	],
 }

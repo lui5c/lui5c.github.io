@@ -5,7 +5,7 @@ exports.createPages = ({ actions, graphql }) => {
     const writeUpTemplate = require.resolve(`./src/templates/writeup.js`)
     return graphql(`
 {
-  allMarkdownRemark {
+  allMarkdownRemark(filter: {frontmatter: {layout: {eq: "post"}}}) {
     edges {
       node {
         frontmatter {

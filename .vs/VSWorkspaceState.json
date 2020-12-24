@@ -3,9 +3,10 @@
     "",
     "\\src",
     "\\src\\components",
+    "\\src\\pages",
     "\\src\\templates",
     "\\writeups"
   ],
-  "SelectedNode": "\\writeups\\label-explorer.md",
+  "SelectedNode": "\\gatsby-node.js",
   "PreviewInSolutionExplorer": false
 }

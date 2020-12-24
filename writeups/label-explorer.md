@@ -1,22 +1,110 @@
 ---
 layout: post
 title: label-explorer 
-description: test wbar post
-slug: label-explorer
+description: label explorer writeup
+slug: "/label-explorer"
 ---
 
-# first
+The label explorer had been a goal of mine for a long time. It ended up being my first real-ish Node.js project. I wanted to make a tool that would fight against what I saw as overly corporate control over Spotify's suggestions to indifferent users. I thought that if I made it easier to source your own suggestions (by using *labels*) instead of "station radio" or "undercurrents" then Spotify would be more democratic as a platform. As to whether or not that's a worthwhile struggle, I am not sure. Spotify pays artists almost nothing, and the label explorer really only improves the chance that someone uses Spotify the way they might Discogs or Bandcamp. I'm currently working on implementing a back button. You can view the repository [here](https://github.com/lui5c/spotify-label-explorer).
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pulvinar condimentum lorem id aliquam. Mauris turpis est, faucibus in maximus quis, varius sed metus. Nulla eget enim volutpat, vehicula lectus vel, interdum dui. Sed finibus risus dolor, non dapibus est vulputate vel. Mauris convallis dictum ligula ut interdum. In volutpat arcu id erat ornare semper et nec erat. Proin vulputate ex non tempus convallis. Nam blandit pretium varius. Cras eget urna sed ante iaculis aliquet non at metus. Suspendisse tempus tincidunt pharetra. Aliquam quis lacus luctus, sagittis mauris sed, mattis ligula.
+## Spotify Web API
 
-> Mauris ullamcorper arcu sit amet semper tristique. Nulla blandit libero eu lacus mattis, non malesuada ante fermentum. In et sagittis sapien, sit amet venenatis purus. Proin consectetur lorem hendrerit, tempor nibh et, ornare orci. Suspendisse sit amet mollis lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Integer at ligula facilisis, aliquam felis ut, cursus nisl. Curabitur dapibus mollis eros at dignissim. Ut leo magna, dictum congue libero vel, egestas pretium tortor. Pellentesque finibus felis sed magna consectetur molestie.
+Spotify has a [nicely documented API](https://developer.spotify.com/documentation/web-api/), which was simple to use. Since this was my first time working with Node.js, I only really used Node for redirecting and initial authorization. Everything else was handled client-side. 
 
-## of course
+### Template
 
-Phasellus eu justo eget lorem suscipit viverra. Sed laoreet tincidunt purus ut venenatis. Vivamus vitae justo ut mi egestas aliquet molestie nec metus. Pellentesque congue posuere sem a facilisis. Vivamus at finibus metus. Nulla pretium tortor eu velit tempor, id bibendum lectus aliquam. Fusce id nibh porta est egestas posuere. Duis id porta leo, eget semper ex. Pellentesque id erat eu ex efficitur ultricies eget id odio. Nulla vitae aliquam neque, id pellentesque purus. Mauris sed libero feugiat, sagittis dolor eget, sollicitudin lorem.
+I used Spotify's tutorial/example of a Spotify Web API Authentication Flow, found [here](https://developer.spotify.com/documentation/web-api/quick-start/). I got rid of everything that I didn't need - I basically only kept the greeting.
 
->> Morbi ornare egestas diam, in vulputate risus rutrum eget. Etiam ultrices justo eget ante mattis vestibulum. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras facilisis pretium libero, vel consequat nisl convallis nec. Ut quis ornare mauris, eu efficitur risus. Donec diam ante, malesuada quis convallis sit amet, consequat sed dolor. Nulla ut sollicitudin tellus. Donec vel sapien a lectus aliquam dapibus nec sit amet massa. Sed ac ligula ornare, bibendum turpis vitae, iaculis mi. Maecenas vitae tellus dapibus, hendrerit metus vitae, sodales risus. Aliquam erat volutpat. Nam eget diam sed urna varius porta. Maecenas vitae felis metus. Morbi vel eros porttitor, ullamcorper enim at, feugiat urna. Curabitur ultrices tellus nec justo facilisis varius.
+### Implementation
 
-### _Finally_
+The implementation was done entirely in jQuery and JavaScript. I wanted webapp-like behavior, and didn't like the idea of a server call for each search. This was particularly important because I didn't want to spend any money on hosting the app, and if all of the logic and API requests could be handled client-side, then the only thing the web server would have to do would be handle initial authentication, which isn't very taxing. I used a lot of click handlers, and defined many functions that had subtly different jQuery AJAX calls to the Spotify Web API. These click handlers would pass JSON-ified information into functions that parsed them into tables, links, and lists. Here are a few examples:
 
-Vestibulum quam metus, vestibulum eget ex feugiat, molestie fermentum velit. Integer auctor erat ut porttitor rhoncus. Fusce dignissim quis nunc sit amet pellentesque. Nullam in rutrum ante. Ut ac sem facilisis, maximus lacus at, dignissim turpis. Integer et fermentum elit, a tincidunt velit. Ut laoreet luctus est et sagittis. Aliquam erat volutpat. Sed venenatis nisi a tortor pharetra convallis. Proin vel aliquet ipsum, a mattis nisi. Vestibulum sed velit felis. Nunc blandit est sit amet dui aliquam, vel gravida dolor congue. Donec nibh tellus, luctus id arcu sit amet, mollis scelerisque diam. Proin iaculis dignissim ligula. Donec sollicitudin accumsan malesuada.
+```javascript
+labelSearchButton.onclick = function() {barSearch("albums")}
+artistSearchButton.onclick = function() {barSearch("artists")}
+playlistSearchButton.onclick = function() {barSearch("playlists")}
+```
+
+These click handlers would trigger functions that read the text in the search bar and pass it into the real search function, which would send the AJAX request. Most requests were straightforward AJAX, except for the searches for releases by a label. In these searches I modified the search query to add <code>label:</code> and then the search query **in quotation marks**. 
+
+```javascript
+function searchAndDisplay(searchQuery, typeOfResult){
+    /*...many lines of code....*/
+	if (typeOfResult == "albums"){
+  	console.log("searching label:\"" + searchQuery + "\"");
+  	$("#results-list").empty();
+  	$.ajax({
+  		url: 'https://api.spotify.com/v1/search',
+ 		method: 'GET',
+		headers: {
+    		'Authorization': 'Bearer ' + access_token
+  		},
+  		data: {
+    		q: "label:\"" + searchQuery + "\"",
+    		type: 'album',
+  		},
+  		success: function(response){
+    		for (var i = 0; i < response.albums.items.length; i++){
+      			getLabelAndAdd(response.albums.items[i], 
+                               response.albums.items[i].href);
+      		}
+    	setLoadMoreInfo("label_albums", response.albums.next);
+  	}
+  });
+}
+```
+That's really the only big thing about the label explorer. Anything else is stored data, a <code>for</code> loop that is parsing JSON into DOM objects, or a jQuery function changing the CSS of something. This was before I had written code in React, (and also before I had learned about the HTML <code>template</code> element) and so I was writing DOM-composing functions that were really basically just convoluted string builders. An example:
+
+```javascript
+function addArtistResult(artistObject){
+  var img = "<div class='div-img' style='background: url(";
+  img += artistObject.images[0].url;
+  img += "); background-position: 50% 50%; background-size: contain;'></div>";
+  
+  var title = "<a data-artistOnClick='true' data-href='";
+  title += artistObject.href + "'>";
+  title += artistObject.name + "</a>";
+  
+  var openExternal = "<a class='openexternal' href=\'";
+  openExternal += artistObject.uri + "'>";
+  openExternal += "open in Spotify // </a>";
+  
+  var secondRow = "<div class='second-row'>";
+  secondRow += openExternal;
+  secondRow += artistObject.genres[0];
+  
+  for (var i = 1; i < artistObject.genres.length; i++){
+    secondRow += ", " + artistObject.genres[i];
+  }
+  
+  var table = "<table class='response-container'>";
+  table += "<tr><td>";
+  table += title + "</td></tr>";
+  table += "<tr><td>";
+  table += secondRow + "</td></tr>";
+  listElement = "<li class='list-group-item'>";
+  listElement += img + table;
+  listElement += "</li>";
+  
+  var DOM_adder = $(listElement).hide();
+  $(resultsList).append(DOM_adder);
+  DOM_adder.show('fast');
+}
+```
+The only thing really of note would be taking advantage of the "data-" prefix for HTML attributes that allows you to store metadata in a DOM element. 
+
+### Deploying
+
+I deployed the app to Heroku, which was pretty simple. It tracks a GitHub repo and all you have to do it <code>git push heroku master</code>.  There are loads of easy-to-follows tutorials online. The only important thing to note is that you have to define your Spotify Client ID and Client Secret API keys as environment variables in your Heroku dyno, and then pass them into the Node.js app when it is run for someone. I made the mistake several times of committing code with my Client Secret and Client ID hard-coded into it.
+
+### Future Development
+
+It'd be nice to 
+
+- deploy the app to something free that's not Heroku (waiting for the dyno to boot up each time is annoying)
+
+- make it use HTML templates
+
+Thanks for reading!
+
+  
