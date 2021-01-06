@@ -5,7 +5,18 @@ description: label explorer writeup
 slug: "/label-explorer"
 ---
 
+![screenshot of label explorer welcome page](label-explorer.png)
+
 The label explorer had been a goal of mine for a long time. It ended up being my first real-ish Node.js project. I wanted to make a tool that would fight against what I saw as overly corporate control over Spotify's suggestions to indifferent users. I thought that if I made it easier to source your own suggestions (by using *labels*) instead of "station radio" or "undercurrents" then Spotify would be more democratic as a platform. As to whether or not that's a worthwhile struggle, I am not sure. Spotify pays artists almost nothing, and the label explorer really only improves the chance that someone uses Spotify the way they might Discogs or Bandcamp. I'm currently working on implementing a back button. You can view the repository [here](https://github.com/lui5c/spotify-label-explorer).
+
+### Goal Functionalities
+
+- View a Label's Releases
+- View an Artist's Releases and which label released each album
+- View which labels are represented on a playlist
+- Labels and artist names are clickable
+
+
 
 ## Spotify Web API
 

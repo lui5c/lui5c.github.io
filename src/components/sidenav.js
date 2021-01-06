@@ -24,7 +24,7 @@ export default function Sidenav() {
 					<img src={gmail_svg} alt="gmail logo"/>
 				</a>
 				<div className="shortBio">
-					Luis Collado
+					Luis Collado 
 				</div>
 				<hr />
 			</div>

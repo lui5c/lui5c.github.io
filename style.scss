@@ -6,6 +6,7 @@ $darker: #1c1e21;
 $dark: #303134 ;
 $hover: #ff7200;
 $offwhite: #FAFAFA;
+$gray: #ebebeb;
 
 //global left/right widths
 $reader-width: 75%;
@@ -16,11 +17,12 @@ html {
 	--deckgo-highlight-code-background: #{$offwhite};
 	--deckgo-highlight-code-border-radius: 15px;
 	--deckgo-highlight-code-padding: 10px 15px 10px 15px;
-	--deckgo-highlight-code-token-selector: darkgreen;
-	--deckgo-highlight-code-token-operator: #c20000;
-	--deckgo-highlight-code-token-atrule: #069406;
-	--deckgo-highlight-code-token-function: #d97000;
-	--deckgo-highlight-code-white-space: pre-wrap;
+	--deckgo-highlight-code-token-selector: #E81782;
+	--deckgo-highlight-code-token-operator: #1849F2;
+	--deckgo-highlight-code-token-atrule: #21DB56;
+	--deckgo-highlight-code-token-function: #EB2300;
+	--deckgo-highlight-code-token-regex: darkred;
+	--deckgo-highlight-code-white-space: pre;
 }
 
 :host(div.deckgo-highlight-code-container){
@@ -56,7 +58,7 @@ $sidebar-padding: 0.5em;
 }
 
 //image variables
-$img_var: 175px;
+$img_var: 15vw;
 
 img.profpic {
 	border-radius: 100px;
@@ -67,9 +69,9 @@ img.profpic {
 	margin-bottom: 1em;
 	margin-top: 1em;
 	opacity: 0.9;
-	&:hover{
+	/*&:hover{
 		opacity: 0.95;
-	}
+	}*/
 }
 
 $logo-height: 30px;
@@ -125,7 +127,6 @@ nav{
 	min-height: 100%;
 }
 
-
 //variables for padding
 $padding: 4em;
 
@@ -137,6 +138,9 @@ $padding: 4em;
 	padding: $padding;
 	padding-top: $padding/4;
 	height: 100%;
+	img {
+		box-shadow: 0px 0px 15px $gray;
+		margin-left: 3em;
+		margin-right: 3em;
+	}
 }
-
-

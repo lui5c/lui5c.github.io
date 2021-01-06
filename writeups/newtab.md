@@ -5,7 +5,7 @@ description: newtab writeup
 slug: "/newtab"
 ---
 
-Okay, okay. This one doesn't actually exist on my GitHub. That's because it relies pretty heavily on the Google Calendar API for its purpose/functionality. I wanted a new tab page that was out of my way, and I decided on a new tab that would display the current two weeks' events, show which day of the week we were at, and provide a quick list of favorites. I also wanted it to load fast, so it couldn't query any live APIs or require a local server. It ended up looking like this:
+This one doesn't actually exist on my GitHub. That's because it relies pretty heavily on the Google Calendar API for its purpose/functionality. I wanted a new tab page that was out of my way, and I decided on a new tab that would display the current two weeks' events, show which day of the week we were at, and provide a quick list of favorites. I also wanted it to load fast, so it couldn't query any live APIs or require a local server. It ended up looking like this:
 
 ![Screenshot showing new tab page](newtab.png)
 
