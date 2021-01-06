@@ -55,6 +55,9 @@ $sidebar-padding: 0.5em;
 	position: fixed;
 	left: 0px;
 	z-index: 2; //this puts the right edge *over* the writeup pane
+	.mobile-expand{
+		display: none;
+	}
 }
 
 //image variables
@@ -143,4 +146,113 @@ $padding: 4em;
 		margin-left: 3em;
 		margin-right: 3em;
 	}
+}
+
+$mobile-breakpoint: 900px;
+
+@media only screen and (max-width: $mobile-breakpoint) {
+	$sidebar-width: 7vw;
+	$expanded-sidebar-width: 70vw;
+	$sidebar-padding: 1em;
+	$transition: all ease 0.4s;
+
+	.sidebar {
+		transition: $transition;
+		width: $sidebar-width;
+
+		.mobile-expand {
+			width: $sidebar-width;
+		}
+
+		.sidebar-socials {
+			padding: 0px;
+
+			img {
+				padding: 0px 0px 1em 0px;
+				margin: 0px;
+			}
+
+			.shortBio {
+				display: none;
+			}
+
+			hr {
+				margin: 0px;
+			}
+		}
+
+		.nav-link {
+			display: none;
+		}
+
+		li {
+			text-align: center;
+			padding: 0px;
+		}
+
+		.mobile-expand {
+			font-size: 40px;
+			display: block;
+			cursor: pointer;
+		}
+
+		img.profpic {
+			border-radius: 100px;
+			position: relative;
+			height: $sidebar-width;
+			width: $sidebar-width;
+			left: calc(50% - #{$sidebar-width/2} ); //50% minus width minus padding
+			margin-bottom: 1em;
+			margin-top: 1em;
+			margin-left: 0px;
+			opacity: 0.9;
+		}
+
+		img{
+			height: 0.8 * $sidebar-width;
+			width: 0.8 * $sidebar-width;
+		}
+	}
+
+	.expanded-sidebar {
+		
+		transition: $transition;
+
+		nav {
+			display: block;
+		}
+		
+		top: 0px;
+		padding-left: $sidebar-padding;
+		padding-right: $sidebar-padding;
+		background-color: #F8F8F8;
+		border-right: 1px solid orange;
+		height: 100%;
+		width: $expanded-sidebar-width;
+		position: fixed;
+		left: 0px;
+		z-index: 2;
+
+		.mobile-expand {
+			margin-top: -0.2em;
+			padding-left: 2vw;
+			font-size: 40px;
+			cursor: pointer;
+			
+		}
+
+		img.profpic {
+			height: $expanded-sidebar-width * 2/5;
+			width: $expanded-sidebar-width * 2/5;
+			left: calc(50% - #{$expanded-sidebar-width/6} ); //50% minus width minus padding
+		}
+	}
+
+	$padding: 1.5em;
+	.writeup {
+		margin-left: calc(#{$sidebar-padding} + #{$sidebar-width} - 1px);
+		padding: 0px $padding 0px $padding/2;
+		font-size: 16px;
+	}
+
 }
