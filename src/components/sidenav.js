@@ -47,7 +47,7 @@ class Sidenav extends Component {
 					<Navlink name="newtab" />
 					{/* <Navlink name="experiments" /> */}
 					<li className="mobile-expand" role="none" onClick={this.toggleMobileMenu}>
-						+
+						{this.state.expanded ? "←" : "→" }
 					</li>
 				</nav>
 			</div>

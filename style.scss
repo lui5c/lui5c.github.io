@@ -155,6 +155,7 @@ $mobile-breakpoint: 900px;
 	$expanded-sidebar-width: 70vw;
 	$sidebar-padding: 1em;
 	$transition: all ease 0.4s;
+	$arrow-size: 24px;
 
 	.sidebar {
 		transition: $transition;
@@ -191,7 +192,7 @@ $mobile-breakpoint: 900px;
 		}
 
 		.mobile-expand {
-			font-size: 40px;
+			font-size: $arrow-size;
 			display: block;
 			cursor: pointer;
 		}
@@ -236,9 +237,9 @@ $mobile-breakpoint: 900px;
 		.mobile-expand {
 			margin-top: -0.2em;
 			padding-left: 2vw;
-			font-size: 40px;
+			font-size: $arrow-size;
 			cursor: pointer;
-			
+			text-align: right;
 		}
 
 		img.profpic {
