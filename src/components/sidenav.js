@@ -45,7 +45,7 @@ class Sidenav extends Component {
 					<Navlink name="label-explorer" />
 					<Navlink name="wbar" />
 					<Navlink name="newtab" />
-					{/* <Navlink name="experiments" /> */}
+					<Navlink name="experiments" />
 					<li className="mobile-expand" role="none" onClick={this.toggleMobileMenu}>
 						{this.state.expanded ? "←" : "→" }
 					</li>
@@ -60,7 +60,7 @@ function Navlink(props) {
 	if (props.path) { path = props.path; }
 	else { path = "/" + props.name + "/"; }
 	return (
-		<li	role="none" class="nav-link"><Link to={path}>{props.name}</Link></li>
+		<li	role="none" className="nav-link"><Link to={path}>{props.name}</Link></li>
 		)
 }
 

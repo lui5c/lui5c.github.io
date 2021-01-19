@@ -63,6 +63,14 @@ Writing a multi-function batch file was a terrible idea - there are countless ex
 
 I learned my lesson. I also had a function that would record two hours from a stream and name the resultant mp3 after the time that it ran. 
 
+#### Put it on the Website
+
+I used a program called WinSCP to automate file uploads. I would call it from the batch file, passing in parameters for the script to execute and the file to transfer. 
+
+The way I dealt with organization was by creating a hard-coded directory structure in our web root, and I would upload shows that corresponded to shows by uploading them to a certain shows' dedicated timeslot. This way, without any back-end experience, I could give the illusion of having a show and its archives related/tied to one another. 
+
+I now had a bunch of directories that were rapidly being filled with files, and I just needed a landing page for each directory that would nicely display the audio files. I used [audioJS](https://kolber.github.io/audiojs/audiojs/audio.js) to handle the HTML and JavaScript presentation of the different audio files, and then familiarized myself with `echo` , `glob`, `foreach`, and `$` on StackOverflow to connect the files in the directory with the HTML of the landing page.
+
 ```php
 <?php 
   foreach (glob("*.wav") as $filename)
@@ -81,10 +89,3 @@ I learned my lesson. I also had a function that would record two hours from a st
 
 ?> 
 ```
-Still in progress - 
-
-<!---
-
-[audioJS](https://kolber.github.io/audiojs/audiojs/audio.js)
-
---->

@@ -3,10 +3,11 @@
     "",
     "\\src",
     "\\src\\components",
+    "\\src\\components\\experiments",
     "\\src\\pages",
     "\\src\\templates",
     "\\writeups"
   ],
-  "SelectedNode": "\\src\\components\\sidenav.js",
+  "SelectedNode": "\\src\\components\\experiments\\timex.js",
   "PreviewInSolutionExplorer": false
 }

@@ -1,5 +1,9 @@
 //fonts
 @import url('https://fonts.googleapis.com/css2?family=Open%20Sans:wght@200;300;400;500;600&display=swap');
+@font-face {
+	font-family: "Digital-7 Mono";
+	src: url("static/digital-7.mono.ttf");
+}
 
 // colors
 $darker: #1c1e21;
@@ -161,10 +165,6 @@ $mobile-breakpoint: 900px;
 		transition: $transition;
 		width: $sidebar-width;
 
-		.mobile-expand {
-			width: $sidebar-width;
-		}
-
 		.sidebar-socials {
 			padding: 0px;
 
@@ -195,6 +195,7 @@ $mobile-breakpoint: 900px;
 			font-size: $arrow-size;
 			display: block;
 			cursor: pointer;
+			width: $sidebar-width;
 		}
 
 		img.profpic {
@@ -216,13 +217,6 @@ $mobile-breakpoint: 900px;
 	}
 
 	.expanded-sidebar {
-		
-		transition: $transition;
-
-		nav {
-			display: block;
-		}
-		
 		top: 0px;
 		padding-left: $sidebar-padding;
 		padding-right: $sidebar-padding;
@@ -233,6 +227,11 @@ $mobile-breakpoint: 900px;
 		position: fixed;
 		left: 0px;
 		z-index: 2;
+		transition: $transition;
+
+		nav {
+			display: block;
+		}
 
 		.mobile-expand {
 			margin-top: -0.2em;
