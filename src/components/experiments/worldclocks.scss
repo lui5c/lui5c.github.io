@@ -1,0 +1,106 @@
+$minute_length: 25%;
+$hour_length: 15%;
+$second_length: 35%;
+$clock-outline-color: #808080;
+$clock_dim: 150px;
+$clock-red: #FF2A2A;
+
+.worldclock {
+
+	.smooth-transition {
+		transition: transform 0.2s cubic-bezier(.4,2.08,.55,.44);
+	}
+
+	.long-transition {
+		transition: transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	}
+
+	.none-transition {
+		transition: none;
+	}
+
+	.hand {
+		z-index: 0;
+		transform-origin: 50% 100%;
+		background-color: black;
+		border-radius: 5px;
+		width: 1px;
+		position: absolute;
+	}
+
+	.minute {
+		margin-left: calc(50% - 1px);
+		margin-top: calc(50% - #{$minute_length});
+		height: $minute_length;
+		width: 2px;
+	}
+
+	.second {
+		background-color: $clock-red;
+		margin-left: calc(50% - .5px);
+		height: $second_length;
+		margin-top: calc(50% - #{$second_length});
+		width: 1px;
+	}
+
+	.hour {
+		height: $hour_length;
+		margin-left: calc(50% - 1.5px);
+		margin-top: calc(50% - #{$hour_length});
+		width: 3px;
+	}
+
+	.clock {
+		cursor: pointer;
+		color: lightgray;
+		margin: 10px;
+		position: relative;
+		height: $clock_dim - 2px;
+		width: $clock_dim - 2px;
+		border-radius: 100%;
+		text-align: center;
+		line-height: $clock_dim;
+		font-size: $clock_dim / 3;
+		border: 2px solid $clock-outline-color;
+		display: inline-block;
+	}
+
+	.plus {
+		border: 2px dashed $clock-outline-color;
+		transition: color 0.1s ease-in;
+		transition: height 0.5s cubic-bezier(.4,2.08,.55,.44);
+		transition: width 0.5s cubic-bezier(.4,2.08,.55,.44);
+		user-select: none;
+		transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+		&:hover {
+			color: #FF9898;
+			font-size: 2/5 * $clock_dim;
+			transition: font-size 0.1s linear;
+		}
+	}
+
+	.pin {
+		margin-left: calc(50% - 4px);
+		background-color: $clock-red;
+		border-radius: 100%;
+		height: 8px;
+		width: 8px;
+		margin-top: calc(50% - 4px);
+		position: absolute;
+		z-index: 5;
+	}
+
+	.hidden {
+		visibility: hidden;
+	}
+}
+
+.worldclock-container {
+	padding: 0px 15px 15px 0px;
+	display: flex;
+	justify-content: left;
+	background-color: white;
+	border-radius: 10px;
+	flex-wrap: wrap;
+}

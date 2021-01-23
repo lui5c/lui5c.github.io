@@ -6,8 +6,8 @@
     "\\src\\components\\experiments",
     "\\src\\pages",
     "\\src\\templates",
-    "\\writeups"
+    "\\static"
   ],
-  "SelectedNode": "\\src\\components\\experiments\\timex.js",
+  "SelectedNode": "\\src\\components\\experiments\\worldclocks.js",
   "PreviewInSolutionExplorer": false
 }
