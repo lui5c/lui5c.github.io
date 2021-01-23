@@ -14,7 +14,7 @@ export default function Home() {
 				<p> This is where I try to replicate cool and cute things I've seen elsewhere on the internet in React. </p>
 				{/**<Timex /> **/}
 				<div>
-					<h3>Bubbles</h3>
+					<h3>Cute, Click-to-Configure Clocks:</h3>
 					<WorldClocks />
 				</div>
 				<div>
