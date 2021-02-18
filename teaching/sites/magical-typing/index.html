@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Magical Typing</title>
+  <style>
+    body {
+      font-size: 24px;
+      padding: 0em 3em 0em 3em;
+      margin: 0px;
+    }
+    #dump {
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 4em;
+      width: 100%;
+      min-height: 100px;
+      border: 1px solid gray;
+      border-radius: 5px;
+      padding: 0.2em;
+    }
+    #show {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      font-size: 28px;
+      color: lightgreen;
+      cursor: pointer;
+      padding: 0px;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="show">[+/-]</div>
+  <div id="wrapper">
+    <h3>Choose a file to type fast: </h3>
+    <input type="file" onchange="handleFile(event)" />
+    <p>Select a simple .txt file using the button, and then try to type in the text box. A sample file is provided. The text will magically come up as you type! Click the small green [+/-] button in the corner to hide these instructions.</p>
+  </div>
+  <h2>My essay:</h2>
+  <div id="dump" contenteditable></div>
+  <script type="text/javascript">
+
+    var textArray = [""];
+    var currentIndex = 0;
+
+    //handle passing in file
+    function handleFile(event) {
+      var input = event.target;
+      var reader = new FileReader();
+      reader.onload = function () {
+        var text = reader.result.toString().replace(/(\r\n|\n|\r)/gm, "<br>");
+        textArray = text.split(" ");
+        console.log(textArray);
+      }
+      reader.readAsText(input.files[0]);
+    }
+
+    //handle types in text box
+    var textBox = document.getElementById("dump");
+    textBox.addEventListener("keypress", function (event) {
+      event.preventDefault();
+      if (currentIndex < textArray.length) {
+        textBox.innerHTML += " " + textArray[currentIndex];
+        currentIndex += 1;
+      }
+    });
+
+    var showing = true;
+    var showButton = document.getElementById("show");
+    var wrapper = document.getElementById("wrapper");
+    showButton.addEventListener('click', function () {
+      wrapper.style.display = showing ? "none" : "block";
+      showing = !showing;
+    });
+
+  </script>
+</body>
+</html>

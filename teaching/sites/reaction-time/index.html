@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      text-align: center;
+      font-size: 24px;
+    }
+    table {
+      margin-top: 1em;
+      margin-left: auto;
+      margin-right: auto;
+      border: 1px solid red;
+      border-collapse: collapse;
+      box-shadow: lightgray 0px 0px 5px;
+      background-attachment: fixed;
+      background-image: url(pic.jpg);
+      background-size: contain;
+    }
+    td {
+      width: 15vh;
+      height: 15vh;
+      border: 3px solid gray;
+      text-align: center;
+      line-height: 100%;
+      background-color: none;
+      transition: all linear;
+    }
+    #score {
+      padding-top: 0.5em;
+    }
+  </style>
+</head>
+<body>
+  <div id="score">click the timing square as fast as you can!</div>
+  <table>
+    <tr>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+    </tr>
+    <tr>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+    </tr>
+    <tr>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+    </tr>
+    <tr>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+    </tr>
+    <tr>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+    </tr>
+  </table>
+  <script type="text/javascript">
+    //array of indices
+    var index_arr = [];
+    //array of td elements
+    var cells_arr = [];
+
+    //this just populates the above arrays
+    const cells = document.querySelectorAll('td');
+    cells.forEach(cell => {
+      index_arr.push(index_arr.length);
+      cells_arr.push(cell);
+      cell.style.backgroundColor = "white";
+    });
+
+    //this highlights one cell
+    var lastRun = false;
+    function highlight() {
+      lastRun = (index_arr.length == 1);
+
+      // pick a random index to remove
+      var toRemove = Math.floor(Math.random() * index_arr.length); 
+
+      // get the cell at that index while removing the index
+      var currentCell = cells_arr[index_arr.splice(toRemove, 1)];
+
+      // begin the timer, and add click handler
+      currentCell.style.backgroundColor = "black";
+      currentCell.style.color = "white";
+      var cell_timer = setInterval(function () { updateCellTime(currentCell) }, 10);
+      currentCell.addEventListener('mousedown', function _handle() {
+        currentCell.style.backgroundColor = null;
+        clearInterval(cell_timer);
+        currentCell.removeEventListener('mousedown', _handle);
+        if (lastRun) {
+          endGame();
+          return 0;
+        } else {
+          highlight();
+        }
+      });
+    }
+
+    function updateCellTime(cell) {
+      var toAdd = 0.01;
+      if (cell.innerHTML > 0) {
+        toAdd += Number(cell.innerHTML);
+      }
+      cell.innerHTML = toAdd.toFixed(2);
+    }
+
+    function endGame() {
+      var score = 0;
+      var scoreElement = document.getElementById("score");
+      cells.forEach(cell => {
+        score += Number(cell.innerHTML);
+        scoreElement.innerHTML = "Your time was: " + score.toFixed(2);
+      });
+    }
+
+    highlight();
+  </script>
+</body>
+</html>

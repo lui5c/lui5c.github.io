@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Collect The Square</title>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Press+Start+2P">
+</head>
+	<body>
+		<canvas id="canvas" height="400" width="600"></canvas>
+		<div id="controls">
+			<ul>
+				<li id="up">up</li>
+				<li id="left">left</li>
+				<li id="right">right</li>
+				<li id="down">down</li>
+			</ul>
+		</div>
+
+		<style>
+			body{
+				font-family: 'Press Start 2P';
+			}
+
+      #canvas {
+        height: 400px;
+        width: 600px;
+        border: dashed 10px blue;
+        font-family: 'Press Start 2P';
+      }
+
+			#controls{
+				display: inline-block;
+				vertical-align: top;
+				width: 200px;
+			}
+
+			#controls li{
+				list-style-type: none;
+				text-align: center;
+				font-size: 60px;
+				color: black;
+				height: 100px;
+			}
+
+			#controls li:active{
+				background-color: yellow;
+				cursor: pointer;
+				user-select: none;
+			}
+			#controls li:hover{
+				cursor: pointer;
+			}
+		</style>
+		<script>
+			//our canvas
+			var canvas = document.getElementById("canvas");
+			// our context
+			var context = canvas.getContext("2d");
+
+			var playerColor = "#00FF00";
+			var targetColor = "#FF0000";
+
+			//define our square
+			//position
+			var x = 50;
+			var y = 100;
+			var speed = 10;
+			var sideLength = 50;
+
+			// get buttons
+			var leftButton = document.getElementById("left");
+			var rightButton = document.getElementById("right");
+			var upButton = document.getElementById("up");
+			var downButton = document.getElementById("down");
+
+			//add flags for movement
+			var movingRight = false;
+			var movingLeft = false;
+			var movingDown = false;
+			var movingUp = false;
+
+			//NEW target x and y
+			var targetX = 0;
+			var targetY = 0;
+			var targetSize = 20;
+
+			var score = 0;
+			var time = 10;
+			var id = null;
+
+			function setMovingRight(setting){
+				movingRight = setting;
+			}
+			function setMovingLeft(setting){
+				movingLeft = setting;
+			}
+			function setMovingUp(setting){
+				movingUp = setting;
+			}
+			function setMovingDown(setting){
+				movingDown = setting;
+			}
+
+			document.addEventListener('keydown', function (event) {
+				event.preventDefault();
+				if (event.keyCode === 38) { //up
+					setMovingUp(true);
+				}
+				if (event.keyCode === 40) { //down
+					setMovingDown(true);
+				}
+				if (event.keyCode === 37) { //left
+					setMovingLeft(true);
+				}
+				if (event.keyCode === 39) { //right
+					setMovingRight(true);
+				}
+			});
+
+			document.addEventListener('keyup', function (event) {
+				event.preventDefault();
+				if (event.keyCode === 38) { //up
+					setMovingUp(false);
+				}
+				if (event.keyCode === 40) { //down
+					setMovingDown(false);
+				}
+				if (event.keyCode === 37) { //left
+					setMovingLeft(false);
+				}
+				if (event.keyCode === 39) { //right
+					setMovingRight(false);
+				}
+			});
+
+			//left button
+			leftButton.addEventListener('mousedown', () =>{setMovingLeft(true);});
+			leftButton.addEventListener('touchstart', () =>{setMovingLeft(true);});
+			leftButton.addEventListener('mouseup', () =>{setMovingLeft(false);});
+			leftButton.addEventListener('touchend', () => { setMovingLeft(false); });
+			leftButton.addEventListener('mouseleave', () => { setMovingLeft(false); });
+
+			//right button
+			rightButton.addEventListener('mousedown', () =>{setMovingRight(true);});
+			rightButton.addEventListener('touchstart', () =>{setMovingRight(true);});
+			rightButton.addEventListener('mouseup', () =>{setMovingRight(false);});
+			rightButton.addEventListener('touchend', () => { setMovingRight(false); });
+			rightButton.addEventListener('mouseleave', () => { setMovingRight(false); });
+
+			//up button
+			upButton.addEventListener('mousedown', () =>{setMovingUp(true);});
+			upButton.addEventListener('touchstart', () =>{setMovingUp(true);});
+			upButton.addEventListener('mouseup', () =>{setMovingUp(false);});
+			upButton.addEventListener('touchend', () => { setMovingUp(false); });
+			upButton.addEventListener('mouseleave', () => { setMovingUp(false); });
+
+			//down button
+			downButton.addEventListener('mousedown', () =>{setMovingDown(true);});
+			downButton.addEventListener('touchstart', () =>{setMovingDown(true);});
+			downButton.addEventListener('mouseup', () =>{setMovingDown(false);});
+			downButton.addEventListener('touchend', () => { setMovingDown(false); });
+			downButton.addEventListener('mouseleave', () => { setMovingDown(false); });
+
+			function moveTarget() {
+				targetX = Math.round(Math.random() * (canvas.width - targetSize));
+				targetY = Math.round(Math.random() * (canvas.height - targetSize));
+			}
+
+			function targetInRange() {
+				if (isWithin(targetX, x, x + sideLength) || isWithin(targetX + targetSize, x, x + sideLength)) {
+          if (isWithin(targetY, y, y + sideLength) || isWithin(targetY + targetSize, y, y + sideLength)) {
+						return true;
+					}
+				} else {
+					return false;
+				}
+			}
+
+			function isWithin(point, beginning, end) {
+				return (point > beginning && point < end);
+			}
+
+			//clear the board
+			function erase(){
+				context.fillStyle = "#FFFFFF"; //white hex code
+				context.fillRect(0,0,600,400);
+			}
+			//draw the board
+			function draw(){//like update(dt) in Cocos
+				erase();
+
+				if (movingRight){
+					x += speed;
+				}
+				if (movingLeft){
+					x -= speed;
+				}
+				if (movingDown){
+					y += speed;
+				}
+				if (movingUp){
+					y -= speed;
+				}
+
+				//NEW 12/4
+				//check positions 
+				//if y < 0 => y = 0
+				//if y > canvas.height - sideLength
+				if (x < 0) {
+					x = 0;
+				}
+				if (x > (canvas.width - sideLength)) {
+					x = canvas.width - sideLength;
+				}
+				if (y < 0) {
+					y = 0;
+				}
+				if (y > (canvas.height - sideLength)) {
+					y = canvas.height - sideLength;
+				}
+
+				if (targetInRange()) {
+					moveTarget();
+					score++;
+				}
+
+				context.fillStyle = playerColor; //red hex code
+				context.fillRect(x, y, sideLength, sideLength);
+
+				context.fillStyle = targetColor;
+				context.fillRect(targetX, targetY, targetSize, targetSize);
+
+        context.font = "10px 'Press Start 2P' ";
+				context.fillText("score:" + score, canvas.width - 70, canvas.height - 15);
+
+        context.font = "10px 'Press Start 2P' ";
+        context.fillText("time left:" + time, canvas.width - 70, canvas.height - 50);
+
+
+
+				if (time == 0) {
+					gameOver();
+				} else {
+          window.requestAnimationFrame(draw);
+				}
+
+			}
+
+			//NEW 12/
+			function menu() {
+				erase();
+				context.fillStyle = '#000000';
+				context.textAlign = 'center';
+
+        context.font = "24px 'Press Start 2P' ";
+				context.fillText('Click to Start', canvas.width / 2, canvas.height / 2);
+
+				// Start the game on a click
+				canvas.addEventListener('click', startGame);
+			}
+
+			function startGame(){
+				canvas.removeEventListener('click', startGame);
+				moveTarget();
+				id = setInterval(function () {
+					time--;
+				}, 1000)
+				draw();
+			}
+
+			function gameOver() {
+        clearInterval(id);
+
+        erase();
+				context.fillStyle = '#000000';
+				context.textAlign = 'center';
+
+				context.font = "24px 'Press Start 2P' ";
+				context.fillText('Score:' + score, canvas.width / 2, canvas.height / 2);
+			}
+
+			//NEW 12/4
+			//open up a menu at the beginning, with click to play
+			document.fonts.load('48px "Press Start 2P"').then(menu);
+
+		</script>
+	</body>
+</html>

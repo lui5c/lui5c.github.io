@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    table {
+      margin-top: 70px;
+      margin-left: auto;
+      margin-right: auto;
+      border: 1px solid red;
+      border-collapse: collapse;
+      font-family: Arial;
+      box-shadow: gray 0px 0px 15px;
+    }
+    td {
+      border: 3px solid gray;
+      width: 25vh;
+      height: 25vh;
+      text-align: center;
+      line-height: 100%;
+      font-size: 8em;
+      background-color: white;
+      transition: all linear;
+    }
+    #turn {
+      position: fixed;
+      font-size: 80px;
+      top: 0px;
+      left: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div id="turn"></div>
+  <table>
+    <tr>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+    </tr>
+    <tr>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+    </tr>
+    <tr>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+      <td data-state="none"></td>
+    </tr>
+  </table>
+  <script type="text/javascript">
+    var turn = "x";
+
+    const flag = document.querySelector("#turn");
+    flag.innerHTML = turn + "'s turn";
+
+
+    const cells = document.querySelectorAll('td');
+    cells.forEach(cell => {
+      cell.onclick = clickHandler;
+    });
+
+    function clickHandler() {
+      if (this.getAttribute("data-state") == "none") {
+        this.setAttribute("data-state", turn);
+        this.innerHTML = turn;
+        turn = (turn == "x") ? "o" : "x";
+        flag.innerHTML = turn + "'s turn";
+        checkWin();
+      }
+    }
+
+    function checkWin() {
+      if (isStalemate()) {
+        flag.innerHTML = "cat's game!";
+      }
+      if (check("x")) {
+        flag.innerHTML = "x wins!";
+        stopGame();
+      }
+      if (check("o")) {
+        flag.innerHTML = "o wins!";
+        stopGame();
+      }
+    }
+
+    const winningStrings = [
+      "111000000",
+      "010010010",
+      "001001001",
+      "100100100",
+      "100010001",
+      "000000111",
+      "001010100",
+      "000111000"
+    ];
+
+    function check(player) {
+      var string = "";
+      for (var i = 0; i < cells.length; i++) {
+        if (cells[i].getAttribute("data-state") == player) {
+          string += "1";
+        } else {
+          string += "0";
+        }
+      }
+      for (var j = 0; j < winningStrings.length; j++) {
+        if (checkThree(string, winningStrings[j]))
+          return true;
+      }
+      return false;
+    }
+
+    function stopGame() {
+      cells.forEach(cell => {
+        cell.onclick = null;
+      });
+    }
+
+    function checkThree(input, reference) {
+      var sum = 0;
+      for (var i = 0; i < 9; i++) {
+        if (input[i] == reference[i] && input[i] == '1')
+          sum += 1;
+      }
+      return (sum > 2) ? true : false;
+    }
+
+    function isStalemate() {
+      var bin = true; //"binary"
+      var i = 0;
+      while (bin && i < 9) {
+        bin = bin && cells[i].getAttribute("data-state") !== "none";
+        i += 1;
+      }
+      return bin;
+    }
+
+  </script>
+</body>
+</html>

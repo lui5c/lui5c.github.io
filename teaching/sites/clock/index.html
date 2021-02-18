@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Clock</title>
+  <style>
+    body{
+      padding: 0px;
+      margin: 0px;
+      border: 0px;
+    }
+    #clock {
+      font-family: Arial;
+      font-size: 15em;
+      width: 100vw;
+      height: 100vh;
+      text-align: center;
+      background-color: black;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div id="clock"></div>
+  <script type="text/javascript">
+    var fillIn = document.querySelector("#clock");
+    function update() {
+      var d = new Date();
+      var hours = d.getHours(),
+        minutes = d.getMinutes(),
+        seconds = d.getSeconds();
+      if (seconds < 10) {
+        seconds = "0" + seconds;
+      }
+      if (minutes < 10) {
+        minutes = "0" + minutes;
+      }
+      fillIn.innerHTML = hours + ":" + minutes + ":" + seconds;
+    }
+    setInterval(update, 1000);
+  </script>
+</body>
+</html>

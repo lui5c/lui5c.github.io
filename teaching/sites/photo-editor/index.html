@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      text-align: center;
+    }
+    #picture {
+      max-height: 400px;
+      max-width: 400px;
+      box-shadow: lightgray 0px 0px 5px;
+    }
+    #tools {
+      line-height: 2em;
+      text-align: left;
+      padding-left: 2em;
+    }
+    .column-container {
+      display: flex;
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 2em;
+    }
+    .column {
+      flex: 50%;
+    }
+    .slider {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h3>Choose a picture here:</h3>
+  <input type="file" onchange="handlePic(event)" />
+  <br />
+  <div class="column-container">
+    <div class="column">
+      <img id="picture" />
+    </div>
+    <div class="column" id="tools">
+      <h3>Tools</h3>
+      Exposure:
+      <input type="range" min="-100" max="100" value="0" class="slider" id="exposure">
+      <br />
+      Saturation:
+      <input type="range" min="-100" max="100" value="0" class="slider" id="saturation">
+      <br />
+      Contrast:
+      <input type="range" min="-100" max="100" value="0" class="slider" id="contrast">
+    </div>
+  </div>
+  
+  
+  
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/camanjs/4.0.0/caman.full.min.js"></script>
+  <script type="text/javascript">
+
+    var picture = document.getElementById("picture");
+    picture.style.display = "none";
+
+    function handlePic(event) {
+      var input = event.target;
+      var reader = new FileReader();
+      reader.onload = function () {
+        picture.setAttribute('src', reader.result);
+        picture.style.display = "block";
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+
+
+
+    //image editing
+    var exposureSlider = document.getElementById("exposure");
+    var saturationSlider = document.getElementById("saturation");
+    var contrastSlider = document.getElementById("contrast");
+
+    exposureSlider.addEventListener('mouseup', update);
+    saturationSlider.addEventListener('mouseup', update);
+    contrastSlider.addEventListener('mouseup', update);
+
+    var prev_exposure = 0,
+      prev_saturation = 0,
+      prev_contrast = 0;
+
+    var exposure = 0,
+      saturation = 0,
+      contrast = 0;
+
+    function update() {
+      Caman('#picture', function () {
+        exposure = exposureSlider.value - prev_exposure;
+        console.log(exposure);
+        saturation = saturationSlider.value - prev_saturation;
+        contrast = contrastSlider.value - prev_contrast;
+        this.exposure(exposure);
+        this.saturation(saturation);
+        this.contrast(contrast);
+        this.render();
+        prev_exposure = exposureSlider.value;
+        prev_saturation = saturationSlider.value;
+        prev_contrast = contrastSlider.value;
+      });
+    }
+  </script>
+</body>
+</html>

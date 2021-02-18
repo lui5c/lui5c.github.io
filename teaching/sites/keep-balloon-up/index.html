@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Keep The Balloon Up</title>
+	<style>
+		body{
+			margin: 0px;
+			padding: 0px;
+			text-align: center;
+		}
+		canvas {
+			border-radius: 15px;
+			box-shadow: gray 0px 0px 15px;
+		}
+    .score {
+			font-size: 30px;
+			display: inline-block;
+			margin: 0.5em 1em 0px 1em;
+		}
+
+	</style>
+</head>
+<body>
+	<p>your score is a combination of your max height and your hits</p>
+	<canvas height="500" width="1100"></canvas>
+	<br />
+	<div id="track1" class="score"></div>
+	|
+	<div id="track2" class="score"></div>
+	|
+	<div id="track3" class="score"></div>
+	<!-- <div id="track4" class="score"></div> -->
+	<script>
+		//our canvas
+		var canvas = document.querySelector("canvas");
+		// our context
+		var context = canvas.getContext("2d");
+		var flag1 = document.querySelector("#track1");
+		var flag2 = document.querySelector("#track2");
+		var flag3 = document.querySelector("#track3");
+		var flag4 = document.querySelector("#track4");
+
+		var sideLength = 100;
+		var x = 400;
+		var y = 200;
+		var v_x = 0;
+		var v_y = 0;
+		var dt = (1 / 10);
+
+		//score variables
+		var max_height = 0;
+		var disp_height = 0;
+		var score = 0;
+
+		//clear the board
+		function erase() {
+			context.fillStyle = "#FFFFFF"; //white hex code
+			context.fillRect(0, 0, canvas.width, canvas.height);
+		}
+		//draw the board
+		function draw() {
+			//update speed, then pos
+			v_y += 9.8 * dt;
+			y += v_y * dt;
+
+			x += v_x * dt;
+
+			if (x < 0) {
+				x = 0;
+				v_x = -v_x;
+			}
+			if (x > canvas.width - sideLength) {
+				x = canvas.width - sideLength;
+				v_x = -v_x;
+			}
+
+			disp_height = canvas.height - y;
+			max_height = (disp_height > max_height) ? disp_height : max_height;
+			score = (successful_hits * max_height) / 1000;
+
+			flag3.innerHTML = "score: " + score.toFixed(0);
+			flag2.innerHTML = "hits: " + successful_hits;
+			//flag2.innerHTML = "height: " + disp_height.toFixed(0);
+			flag1.innerHTML = "best height: " + max_height.toFixed(0);
+
+			erase();
+			// power bar
+			var clickPower = 0.15 * (Date.now() - time_of_last_click);
+			context.fillStyle = "#00FF00";
+			context.fillRect(0, 0, clickPower, 10);
+
+			// flying square
+			context.fillStyle = "#FF0000"; //red hex code
+			context.fillRect(x, y, sideLength, sideLength);
+
+			if (y > canvas.height) {
+				erase();
+				gameover();
+			} else {
+				window.requestAnimationFrame(draw);
+			}
+		}
+
+		var time_of_last_click = Date.now();
+		var successful_hits = 0;
+
+		canvas.addEventListener('mousedown', function (event) {
+			var clickPower = 0.001 * (Date.now() - time_of_last_click);
+			var x_canvas_click = event.pageX - canvas.offsetLeft;
+			var y_canvas_click = event.pageY - canvas.offsetTop;
+			if (x_canvas_click > x && x_canvas_click < x + sideLength &&
+				y_canvas_click > y && y_canvas_click < y + sideLength) {
+				//onclick:
+				v_x = 40 * (2 * Math.random() - 1) * (3 - clickPower);
+				v_y = -30 * clickPower;
+				successful_hits += 1;
+			}
+			time_of_last_click = Date.now();
+		});
+
+		function gameover() {
+			context.font = "40px Arial";
+			context.fillStyle = "#000000";
+			context.fillText('Game Over', -100 + canvas.width / 2, canvas.height / 2);
+			context.fillText('Score: ' + score.toFixed(0), -80 + canvas.width / 2, 2 * canvas.height / 3);
+		}
+		draw();
+	</script>
+</body>
+</html>
